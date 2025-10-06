@@ -42,6 +42,8 @@ export async function getClicksForUrl(url_id) {
 
 export const storeClicks = async ({id, originalUrl}) => {
   try {
+    // Initialize parser
+    const parser = new UAParser();
     const res = parser.getResult();
     const device = res.type || "desktop";
 

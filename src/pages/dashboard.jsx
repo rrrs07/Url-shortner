@@ -72,7 +72,7 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card className="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border-blue-500/30 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-lg font-medium text-gray-300">Links Created</CardTitle>
@@ -123,7 +123,7 @@ const Dashboard = () => {
       </div>
 
       {/* My Links Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mt-6 bg-gray-800/30 p-6 rounded-2xl border border-gray-700">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-800/30 p-6 rounded-2xl border border-gray-700">
         <div>
           <h2 className="text-3xl font-extrabold text-white flex items-center gap-3">
             <Link2 className="w-8 h-8 text-purple-400" />

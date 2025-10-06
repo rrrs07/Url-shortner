@@ -38,7 +38,7 @@ const LinkPage = () => {
     loading: loadingStats,
     data: stats,
     fn: fnStats,
-  } = useFetch(getClicksForUrl);
+  } = useFetch(getClicksForUrl, id);
 
   const handleDelete = async () => {
     try {
@@ -56,12 +56,13 @@ const LinkPage = () => {
 
   useEffect(() => {
     fn();
-    fnStats(id);
   }, []);
 
   useEffect(() => {
-    if (!error && loading === false) fnStats(id);
-  }, [loading, error]);
+    if (url?.id) {
+      fnStats();
+    }
+  }, [url?.id]);
 
   if (error) {
     navigate("/dashboard");
@@ -92,25 +93,25 @@ const LinkPage = () => {
       {(loading || loadingStats) && (
         <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />
       )}
-      <div className="flex flex-col gap-8 sm:flex-row justify-between">
-        <div className="flex flex-col items-start gap-8 rounded-lg sm:w-2/5">
-          <span className="text-6xl font-extrabold hover:underline cursor-pointer">
+      <div className="flex flex-col gap-8 lg:flex-row justify-between">
+        <div className="flex flex-col items-start gap-8 rounded-lg lg:w-2/5">
+          <span className="text-4xl sm:text-6xl font-extrabold hover:underline cursor-pointer break-words">
             {url?.title}
           </span>
           <a
             href={fullUrl}
             target="_blank"
-            className="text-3xl sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
+            className="text-2xl sm:text-3xl lg:text-4xl text-blue-400 font-bold hover:underline cursor-pointer break-all"
           >
             {fullUrl}
           </a>
           <a
             href={url?.original_url}
             target="_blank"
-            className="flex items-center gap-1 hover:underline cursor-pointer"
+            className="flex items-center gap-1 hover:underline cursor-pointer break-all"
           >
-            <LinkIcon className="p-1" />
-            {url?.original_url}
+            <LinkIcon className="p-1 flex-shrink-0" />
+            <span className="break-all">{url?.original_url}</span>
           </a>
           <span className="flex items-end font-extralight text-sm">
             {new Date(url?.created_at).toLocaleString()}
@@ -141,12 +142,12 @@ const LinkPage = () => {
           </div>
           <img
             src={url?.qr}
-            className="w-full self-center sm:self-start ring ring-blue-500 p-1 object-contain"
+            className="w-full max-w-md self-center lg:self-start ring ring-blue-500 p-1 object-contain"
             alt="qr code"
           />
         </div>
 
-        <Card className="sm:w-3/5">
+        <Card className="lg:w-3/5">
           <CardHeader>
             <CardTitle className="text-4xl font-extrabold">Stats</CardTitle>
           </CardHeader>
