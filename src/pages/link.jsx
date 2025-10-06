@@ -118,7 +118,7 @@ const LinkPage = () => {
                   navigate("/dashboard");
                 })
               }
-              disable={loadingDelete}
+              disabled={loadingDelete}
             >
               {loadingDelete ? (
                 <BeatLoader size={5} color="white" />

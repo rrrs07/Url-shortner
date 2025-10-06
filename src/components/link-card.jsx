@@ -65,7 +65,7 @@ const LinkCard = ({url = [], fetchUrls}) => {
         <Button
           variant="ghost"
           onClick={() => fnDelete(url.id).then(() => fetchUrls())}
-          disable={loadingDelete}
+          disabled={loadingDelete}
         >
           {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
         </Button>
