@@ -40,6 +40,17 @@ const LinkPage = () => {
 
   const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl);
 
+  const handleDelete = async () => {
+    try {
+      console.log("Deleting URL with id:", id);
+      await fnDelete(id);
+      console.log("Delete successful, navigating to dashboard");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
   useEffect(() => {
     fn();
     fnStats(id);
@@ -115,11 +126,7 @@ const LinkPage = () => {
             </Button>
             <Button
               variant="ghost"
-              onClick={() =>
-                fnDelete(id).then(() => {
-                  navigate("/dashboard");
-                })
-              }
+              onClick={handleDelete}
               disabled={loadingDelete}
             >
               {loadingDelete ? (

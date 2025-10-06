@@ -21,6 +21,17 @@ const LinkCard = ({url = [], fetchUrls}) => {
 
   const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl);
 
+  const handleDelete = async () => {
+    try {
+      console.log("Deleting URL with id:", url.id);
+      await fnDelete(url.id);
+      console.log("Delete successful, refreshing URLs");
+      fetchUrls();
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
   const shortLink = url?.custom_url || url?.short_url;
   const fullUrl = typeof window !== 'undefined' ? `${window.location.origin}/${shortLink}` : `/${shortLink}`;
 
@@ -60,7 +71,7 @@ const LinkCard = ({url = [], fetchUrls}) => {
         </Button>
         <Button
           variant="ghost"
-          onClick={() => fnDelete(url.id).then(() => fetchUrls())}
+          onClick={handleDelete}
           disabled={loadingDelete}
         >
           {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
