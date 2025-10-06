@@ -2,11 +2,13 @@
 import {Copy, Download, LinkIcon, Trash} from "lucide-react";
 import {Link} from "react-router-dom";
 import {Button} from "./ui/button";
-import useFetch from "@/hooks/use-fetch";
 import {deleteUrl} from "@/db/apiUrls";
 import {BeatLoader} from "react-spinners";
+import {useState} from "react";
 
 const LinkCard = ({url = [], fetchUrls}) => {
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
   const downloadImage = () => {
     const imageUrl = url?.qr;
     const fileName = url?.title;
@@ -19,16 +21,17 @@ const LinkCard = ({url = [], fetchUrls}) => {
     document.body.removeChild(anchor);
   };
 
-  const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl);
-
   const handleDelete = async () => {
     try {
+      setLoadingDelete(true);
       console.log("Deleting URL with id:", url.id);
-      await fnDelete(url.id);
+      await deleteUrl(url.id);
       console.log("Delete successful, refreshing URLs");
-      fetchUrls();
+      await fetchUrls();
     } catch (error) {
       console.error("Delete failed:", error);
+    } finally {
+      setLoadingDelete(false);
     }
   };
 

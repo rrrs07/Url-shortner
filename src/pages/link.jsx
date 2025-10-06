@@ -7,11 +7,13 @@ import {getClicksForUrl} from "@/db/apiClicks";
 import {deleteUrl, getUrl} from "@/db/apiUrls";
 import useFetch from "@/hooks/use-fetch";
 import {Copy, Download, LinkIcon, Trash} from "lucide-react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {BarLoader, BeatLoader} from "react-spinners";
 
 const LinkPage = () => {
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
   const downloadImage = () => {
     const imageUrl = url?.qr;
     const fileName = url?.title;
@@ -38,16 +40,17 @@ const LinkPage = () => {
     fn: fnStats,
   } = useFetch(getClicksForUrl);
 
-  const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl);
-
   const handleDelete = async () => {
     try {
+      setLoadingDelete(true);
       console.log("Deleting URL with id:", id);
-      await fnDelete(id);
+      await deleteUrl(id);
       console.log("Delete successful, navigating to dashboard");
       navigate("/dashboard");
     } catch (error) {
       console.error("Delete failed:", error);
+    } finally {
+      setLoadingDelete(false);
     }
   };
 
