@@ -9,24 +9,20 @@ import {BeatLoader} from "react-spinners";
 const LinkCard = ({url = [], fetchUrls}) => {
   const downloadImage = () => {
     const imageUrl = url?.qr;
-    const fileName = url?.title; // Desired file name for the downloaded image
+    const fileName = url?.title;
 
-    // Create an anchor element
     const anchor = document.createElement("a");
     anchor.href = imageUrl;
     anchor.download = fileName;
-
-    // Append the anchor to the body
     document.body.appendChild(anchor);
-
-    // Trigger the download by simulating a click event
     anchor.click();
-
-    // Remove the anchor from the document
     document.body.removeChild(anchor);
   };
 
   const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl);
+
+  const shortLink = url?.custom_url || url?.short_url;
+  const fullUrl = typeof window !== 'undefined' ? `${window.location.origin}/${shortLink}` : `/${shortLink}`;
 
   return (
     <div className="flex flex-col md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg">
@@ -40,7 +36,7 @@ const LinkCard = ({url = [], fetchUrls}) => {
           {url?.title}
         </span>
         <span className="text-2xl text-blue-400 font-bold hover:underline cursor-pointer">
-          {window.location.origin}/{url?.custom_url ? url?.custom_url : url.short_url}
+          {fullUrl}
         </span>
         <span className="flex items-center gap-1 hover:underline cursor-pointer">
           <LinkIcon className="p-1" />
@@ -54,7 +50,7 @@ const LinkCard = ({url = [], fetchUrls}) => {
         <Button
           variant="ghost"
           onClick={() =>
-            navigator.clipboard.writeText(`${window.location.origin}/${url?.custom_url || url?.short_url}`)
+            navigator.clipboard.writeText(fullUrl)
           }
         >
           <Copy />

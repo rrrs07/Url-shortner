@@ -64,6 +64,8 @@ const LinkPage = () => {
     link = url.custom_url || url.customUrl || url.slug || url.short_url;
   }
 
+  const fullUrl = typeof window !== 'undefined' ? `${window.location.origin}/${link}` : `/${link}`;
+
   // --- CHECK FOR STATS FIELDS ---
   const statsValid =
     Array.isArray(stats) &&
@@ -82,11 +84,11 @@ const LinkPage = () => {
             {url?.title}
           </span>
           <a
-            href={`${window.location.origin}/${link}`}
+            href={fullUrl}
             target="_blank"
             className="text-3xl sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
           >
-            {window.location.origin}/{link}
+            {fullUrl}
           </a>
           <a
             href={url?.original_url}
@@ -103,7 +105,7 @@ const LinkPage = () => {
             <Button
               variant="ghost"
               onClick={() =>
-                navigator.clipboard.writeText(`${window.location.origin}/${link}`)
+                navigator.clipboard.writeText(fullUrl)
               }
             >
               <Copy />
