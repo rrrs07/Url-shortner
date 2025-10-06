@@ -10,6 +10,7 @@ import LandingPage from "./pages/landing";
 import Dashboard from "./pages/dashboard";
 import LinkPage from "./pages/link";
 import Auth from "./pages/auth";
+import DebugUrls from "./pages/debug-urls";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/auth",
         element: <Auth />,
+      },
+      {
+        path: "/debug-urls",
+        element: <DebugUrls />,
       },
       {
         path: "/dashboard",

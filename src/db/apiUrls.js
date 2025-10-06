@@ -31,18 +31,25 @@ export async function getUrl({id, user_id}) {
 }
 
 export async function getLongUrl(id) {
-  let {data: shortLinkData, error: shortLinkError} = await supabase
-    .from("urls")
-    .select("id, original_url")
-    .or(`short_url.eq.${id},custom_url.eq.${id}`)
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from("urls")
+      .select("id, original_url")
+      .or(`short_url.eq.${id},custom_url.eq.${id}`)
+      .limit(1);
 
-  if (shortLinkError && shortLinkError.code !== "PGRST116") {
-    console.error("Error fetching short link:", shortLinkError);
-    return;
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    if (!data || data.length === 0) {
+      throw new Error("Short URL not found");
+    }
+
+    return data[0];
+  } catch (err) {
+    throw err;
   }
-
-  return shortLinkData;
 }
 
 export async function createUrl({title, longUrl, customUrl, user_id}, qrcode) {

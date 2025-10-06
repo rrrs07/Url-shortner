@@ -36,16 +36,17 @@ const LinkPage = () => {
     loading: loadingStats,
     data: stats,
     fn: fnStats,
-  } = useFetch(getClicksForUrl, id);
+  } = useFetch(getClicksForUrl);
 
-  const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl, id);
+  const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl);
 
   useEffect(() => {
     fn();
+    fnStats(id);
   }, []);
 
   useEffect(() => {
-    if (!error && loading === false) fnStats();
+    if (!error && loading === false) fnStats(id);
   }, [loading, error]);
 
   if (error) {
@@ -113,7 +114,7 @@ const LinkPage = () => {
             <Button
               variant="ghost"
               onClick={() =>
-                fnDelete().then(() => {
+                fnDelete(id).then(() => {
                   navigate("/dashboard");
                 })
               }

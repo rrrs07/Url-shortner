@@ -26,7 +26,7 @@ const LinkCard = ({url = [], fetchUrls}) => {
     document.body.removeChild(anchor);
   };
 
-  const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl, url.id);
+  const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl);
 
   return (
     <div className="flex flex-col md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg">
@@ -64,7 +64,7 @@ const LinkCard = ({url = [], fetchUrls}) => {
         </Button>
         <Button
           variant="ghost"
-          onClick={() => fnDelete().then(() => fetchUrls())}
+          onClick={() => fnDelete(url.id).then(() => fetchUrls())}
           disable={loadingDelete}
         >
           {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
